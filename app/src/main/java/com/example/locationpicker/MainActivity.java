@@ -1,10 +1,7 @@
 package com.example.locationpicker;
 
-import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AlertDialog;
@@ -12,12 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -102,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getLocation() {
-        startActivityForResult(new Intent(this, ChooseLocationWithNearby.class), REQUEST_CODE_SEND_LOCATION);
+        startActivityForResult(new Intent(this, ChooseLocation.class), REQUEST_CODE_SEND_LOCATION);
     }
 
     @Override
@@ -111,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "onActivityResult: REQUEST_CODE_LOCATION");
             if (resultCode == RESULT_OK) {
                 if (data.getExtras() != null) {
-                    double locationLat = data.getExtras().getDouble(ChooseLocationWithNearby.LOCATION_LAT);
-                    double locationLong = data.getExtras().getDouble(ChooseLocationWithNearby.LOCATION_LONG);
+                    double locationLat = data.getExtras().getDouble(ChooseLocation.LOCATION_LAT);
+                    double locationLong = data.getExtras().getDouble(ChooseLocation.LOCATION_LONG);
                     sendMessage(locationLat, locationLong);
                 }
             } else {

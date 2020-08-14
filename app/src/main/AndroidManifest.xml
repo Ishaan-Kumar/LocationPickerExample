@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ChooseLocationWithNearby"
+            android:name=".ChooseLocation"
             android:launchMode="singleInstance"/>
         <activity android:name=".MainActivity">
             <intent-filter>
