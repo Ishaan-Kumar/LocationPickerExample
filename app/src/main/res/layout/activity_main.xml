@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:emojicon="http://schemas.android.com/tools"
+    android:id="@+id/chat_message_list_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/chat_message_list_toolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="center_horizontal"
+        android:background="?attr/colorPrimary"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/chat_message_list_profile_iv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:paddingStart="0dp"
+                android:paddingLeft="0dp"
+                android:src="@drawable/profile" />
+
+            <TextView
+                android:id="@+id/chat_message_list_tv1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_toEndOf="@+id/chat_message_list_profile_iv"
+                android:layout_toRightOf="@+id/chat_message_list_profile_iv"
+                android:ellipsize="end"
+                android:text="Contact Name"
+                android:fontFamily="@font/segoeui"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:text="Contact Number"
+                android:id="@+id/chat_message_list_tv2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chat_message_list_tv1"
+                android:layout_alignStart="@+id/chat_message_list_tv1"
+                android:layout_alignLeft="@+id/chat_message_list_tv1"
+                android:fontFamily="@font/segoeui"
+                android:maxLines="2"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <ListView
+        android:id="@+id/chatListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="150"
+        android:animationCache="false"
+        android:background="#00000000"
+        android:cacheColorHint="#00000000"
+        android:dividerHeight="0dp"
+        android:divider="@null"
+        android:listSelector="@null"
+        android:scrollingCache="false"
+        android:smoothScrollbar="true" />
+
+    <LinearLayout
+        android:id="@+id/screen_chat_linearLayout_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:padding="3dp">
+
+        <ImageButton
+            android:id="@+id/choose_msg_option"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp"
+            android:visibility="gone"
+            android:background="@drawable/image_rounded_curve"
+            android:src="@drawable/add_contact_icon" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_edittext"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="10dp"
+            android:orientation="vertical">
+
+            <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
+                android:id="@+id/editText_compose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/attach"
+                android:layout_toRightOf="@+id/emoji_btn"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="@string/type_message"
+                android:text=""
+                android:layout_marginRight="14dp"
+                android:inputType="textMultiLine"
+                android:textColorHint="@android:color/white"
+                android:maxLength="1500"
+                android:maxLines="6"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:scrollbars="vertical"
+                android:textColor="@android:color/white"
+                emojicon:emojiconSize="24sp"
+                android:layout_alignParentTop="true"/>
+
+
+            <ImageView
+                android:id="@+id/emoji_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                app:srcCompat="@drawable/ic_mood_black_24px" />
+
+            <ImageView
+                android:id="@+id/attach"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="8dp"
+                app:srcCompat="@drawable/ic_attachment" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/screen_chat_button_send"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="6dp"
+            android:background="@drawable/ic_message_send_icon"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:fontFamily="@font/segoeui"
+            android:gravity="center_vertical|center_horizontal"
+            android:onClick="doSendMsg"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</LinearLayout>

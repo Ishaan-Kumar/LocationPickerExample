@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/chat_option_line_one"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:weightSum="6">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/chat_send_document"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_weight="2"
+                android:background="@drawable/circular_fileattach"
+                android:src="@drawable/document_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Document"
+                android:fontFamily="@font/segoeui"
+                android:textColor="@color/gray_icg"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/chat_take_photo"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/circular_fileattach"
+                android:src="@drawable/camera_blue_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Camera"
+                android:fontFamily="@font/segoeui"
+                android:textColor="@color/gray_icg"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/chat_send_gallary"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/circular_fileattach"
+                android:src="@drawable/gallery_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Gallery"
+                android:fontFamily="@font/segoeui"
+                android:textColor="@color/gray_icg"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/chat_option_line_two"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chat_option_line_one"
+        android:orientation="horizontal"
+        android:weightSum="6">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/chat_send_audio"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/circular_fileattach"
+                android:src="@drawable/audio_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Audio"
+                android:fontFamily="@font/segoeui"
+                android:textColor="@color/gray_icg"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/chat_send_video"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/circular_fileattach"
+                android:src="@drawable/video_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Video"
+                android:fontFamily="@font/segoeui"
+                android:textColor="@color/gray_icg"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/chat_send_contact"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_weight="2"
+                android:background="@drawable/circular_fileattach"
+                android:src="@drawable/profile_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Contact"
+                android:fontFamily="@font/segoeui"
+                android:textColor="@color/gray_icg"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chat_option_line_three"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chat_option_line_one"
+        android:orientation="horizontal"
+        android:weightSum="6">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/chat_send_location"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/circular_fileattach"
+                android:src="@drawable/location_metro_icon"
+                android:visibility="visible" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Location"
+                android:fontFamily="@font/segoeui"
+                android:textColor="@color/gray_icg"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <ImageButton
+                android:id="@+id/chat_send_locationn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/circular_fileattach"
+                android:src="@drawable/location_metro_icon"
+                android:visibility="visible" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Location"
+                android:textColor="@color/gray_icg"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <ImageButton
+                android:id="@+id/chat_send_location1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/circular_fileattach"
+                android:src="@drawable/location_metro_icon"
+                android:visibility="visible" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Location"
+                android:textColor="@color/gray_icg"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
+
+

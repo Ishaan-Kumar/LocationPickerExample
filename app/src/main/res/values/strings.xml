@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Location Picker Example</string>
+    <string name="current_location">Current Location</string>
+    <string name="nearby_places">Nearby Places</string>
+    <string name="send_location">Send Location</string>
+    <string name="type_message">Type Message</string>
+</resources>
