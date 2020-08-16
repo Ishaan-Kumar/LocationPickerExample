@@ -105,10 +105,13 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_SEND_LOCATION) {
             Log.d(TAG, "onActivityResult: REQUEST_CODE_LOCATION");
             if (resultCode == RESULT_OK) {
-                if (data.getExtras() != null) {
-                    double locationLat = data.getExtras().getDouble(ChooseLocation.LOCATION_LAT);
-                    double locationLong = data.getExtras().getDouble(ChooseLocation.LOCATION_LONG);
-                    sendMessage(locationLat, locationLong);
+                Bundle extras = data.getExtras();
+                if (extras != null) {
+                    String name = extras.getString(ChooseLocation.EXTRA_NAME);
+                    String add = extras.getString(ChooseLocation.EXTRA_ADDRESS);
+                    double locationLat = extras.getDouble(ChooseLocation.EXTRA_LAT);
+                    double locationLong = extras.getDouble(ChooseLocation.EXTRA_LONG);
+                    sendMessage(name, add, locationLat, locationLong);
                 }
             } else {
                 Log.d(TAG, "onActivityResult: Location Sending aborted by user");
@@ -116,9 +119,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void sendMessage(double locationLat, double locationLong) {
+    private void sendMessage(String name, String add, double locationLat, double locationLong) {
         Log.d(TAG, "sendMessage() called with: locationLat = [" + locationLat + "], locationLong = [" + locationLong + "]");
-        Toast.makeText(this, "Lat: " + locationLat + "\nLong: " + locationLong, Toast.LENGTH_LONG).show();
+        Toast.makeText(this,
+                "\n Name: " + name +
+                        "\nAddress: " + add +
+                        "\nLat: " + locationLat +
+                        "\nLong: " + locationLong,
+                Toast.LENGTH_LONG).show();
     }
 
 }

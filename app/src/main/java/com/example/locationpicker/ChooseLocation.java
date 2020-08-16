@@ -49,8 +49,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class ChooseLocation extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback, AdapterView.OnItemClickListener {
-    public static final String LOCATION_LAT = "location_lat";
-    public static final String LOCATION_LONG = "location_long";
+    public static final String EXTRA_LAT = "extra_lat";
+    public static final String EXTRA_LONG = "extra_long";
+    public static final String EXTRA_NAME = "extra_name";
+    public static final String EXTRA_ADDRESS = "extra_address";
     private static String TAG = ChooseLocation.class.getSimpleName();
 
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 500;
@@ -68,7 +70,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     private boolean isFixAtCurrent = true;
     private LocationRequest locationRequest;
 
-    private LatLng locationToBeSent = null;
+    private LocationToBeSent locationToBeSent = null;
     private LatLng currentLocation = null;
     private PlacesClient placesClient;
     private NearbyListAdapter nearbyListAdapter;
@@ -81,7 +83,8 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
 
 
         // Initialize the SDK
-        Places.initialize(getApplicationContext(), getString(R.string.google_api_key));
+        Places.initialize(getApplicationContext(),
+                getString(R.string.google_api_key));
 
         // Create a new PlacesClient instance
         placesClient = Places.createClient(this);
@@ -185,15 +188,10 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             placesClient.findCurrentPlace(request).addOnSuccessListener(findCurrentPlaceResponse -> {
                 Log.d(TAG, "onComplete of findNearbyPlaces: called");
-                ArrayList<PlaceLikelihood> placeLikelihoods = new ArrayList<>();
+                ArrayList<PlaceLikelihood> placeLikelihoods;
                 if (findCurrentPlaceResponse != null) {
-                    placeLikelihoods.addAll(findCurrentPlaceResponse.getPlaceLikelihoods());
-                    Collections.sort(placeLikelihoods, new Comparator<PlaceLikelihood>() {
-                        @Override
-                        public int compare(PlaceLikelihood placeLikelihood, PlaceLikelihood t1) {
-                            return Double.valueOf(placeLikelihood.getLikelihood()).compareTo(t1.getLikelihood());
-                        }
-                    });
+                    placeLikelihoods = new ArrayList<>(findCurrentPlaceResponse.getPlaceLikelihoods());
+                    Collections.sort(placeLikelihoods, (placeLikelihood, t1) -> Double.compare(placeLikelihood.getLikelihood(), t1.getLikelihood()));
                     Collections.reverse(placeLikelihoods);
 //                            Log.d(TAG, "onComplete: Nearby Places List");
 //                            for (PlaceLikelihood place : placeLikelihoods) {
@@ -271,21 +269,14 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
         requestLocationUpdates();
     }
 
-    private void updateGoogleMapReadyStatus(boolean b) {
-        isGoogleMapReady = b;
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -296,16 +287,18 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
             Log.e(TAG, "onItemClick: item at position " + position + "is null");
             return;
         }
-        setLocationResult(new LatLng(item.getLatlng().latitude, item.getLatlng().longitude));
+        setLocationResult(new LocationToBeSent(item.getName(),
+                item.getAddress(),
+                new LatLng(item.getLatlng().latitude, item.getLatlng().longitude)));
 
         view.setSelected(true);
 
         currentLocationTextView.setSelected(false);
     }
 
-    private void setLocationResult(LatLng location) {
-        locationToBeSent = location;
-        updateCameraViewOnMap(location.latitude, location.longitude);
+    private void setLocationResult(LocationToBeSent locationResult) {
+        locationToBeSent = locationResult;
+        updateCameraViewOnMap(locationResult.latlng.latitude, locationResult.latlng.longitude);
         sendLocationBtn.setEnabled(true);
     }
 
@@ -314,7 +307,9 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.current_location_string:
-                setLocationResult(currentLocation);
+                setLocationResult(new LocationToBeSent("CURRENT",
+                        currentLocationTextView.getText().toString(),
+                        currentLocation));
                 isFixAtCurrent = true;
                 currentLocationTextView.setSelected(true);
 
@@ -324,8 +319,10 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
             case R.id.sendLocationBtn:
                 if (locationToBeSent != null) {
                     Intent i = new Intent();
-                    i.putExtra(LOCATION_LAT, locationToBeSent.latitude);
-                    i.putExtra(LOCATION_LONG, locationToBeSent.longitude);
+                    i.putExtra(EXTRA_NAME, locationToBeSent.name);
+                    i.putExtra(EXTRA_ADDRESS, locationToBeSent.add);
+                    i.putExtra(EXTRA_LAT, locationToBeSent.latlng.latitude);
+                    i.putExtra(EXTRA_LONG, locationToBeSent.latlng.longitude);
                     setResult(RESULT_OK, i);
                 } else
                     Log.e(TAG, "onClick: locationString is null");
@@ -334,4 +331,16 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    private static class LocationToBeSent {
+        String name;
+        String add;
+        LatLng latlng;
+
+        LocationToBeSent(String name, String add, LatLng latlng) {
+            this.name = name;
+            this.add = add;
+            this.latlng = latlng;
+
+        }
+    }
 }
