@@ -57,9 +57,10 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
 
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 500;
     private static final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 0.2f;
+    private static final float MIN_DISTANCE_CHANGE_FOR_NEARBY_LOCATIONS = 1f;
     private static final float GOOGLE_MAP_ZOOM_LEVEL = 15;
 
-
+    private LatLng cache = new LatLng(0, 0);
     private TextView currentLocationTextView;
     private FusedLocationProviderClient fusedLocationClient;
     private GoogleMap googleMap;
@@ -145,8 +146,12 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
                     if (isFixAtCurrent)
                         updateCameraViewOnMap(location.getLatitude(), location.getLongitude());
                     updateCurrentLocationText(getCurrentLocationString(location.getLatitude(), location.getLongitude()));
-                    findNearByPlaces();
-                    currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    if (Math.abs(cache.latitude - location.getLatitude()) > MIN_DISTANCE_CHANGE_FOR_NEARBY_LOCATIONS
+                            || Math.abs(cache.longitude - location.getLongitude()) > MIN_DISTANCE_CHANGE_FOR_NEARBY_LOCATIONS) {
+                        findNearByPlaces();
+                    } else
+                        currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    cache = new LatLng(location.getLatitude(), location.getLongitude());
                 }
             }
         };
@@ -168,15 +173,24 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
 
     private void showNearbyPlacesList(ArrayList<PlaceLikelihood> nearbyLocationsArrayList) {
         Log.d(TAG, "showNearbyPlacesList: called");
-        ArrayList<NearbyItem> nearbyItems = new ArrayList<>();
+
+        nearbyListAdapter.clear();
         for (PlaceLikelihood placeLikelihood : nearbyLocationsArrayList) {
-            nearbyItems.add(new NearbyItem(placeLikelihood.getPlace().getId()
+            nearbyListAdapter.add(new NearbyItem(placeLikelihood.getPlace().getId()
                     , placeLikelihood.getPlace().getName()
                     , placeLikelihood.getPlace().getAddress()
                     , placeLikelihood.getPlace().getLatLng()));
         }
-        nearbyListAdapter.setData(nearbyItems);
-        ((BaseAdapter) nearbyPlacesListView.getAdapter()).notifyDataSetChanged();
+
+//        ArrayList<NearbyItem> nearbyItems = new ArrayList<>();
+//        for (PlaceLikelihood placeLikelihood : nearbyLocationsArrayList) {
+//            nearbyItems.add(new NearbyItem(placeLikelihood.getPlace().getId()
+//                    , placeLikelihood.getPlace().getName()
+//                    , placeLikelihood.getPlace().getAddress()
+//                    , placeLikelihood.getPlace().getLatLng()));
+//        }
+//        nearbyListAdapter.setData(nearbyItems);
+//        ((BaseAdapter) nearbyPlacesListView.getAdapter()).notifyDataSetChanged();
     }
 
     private void findNearByPlaces() {
@@ -193,15 +207,15 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
                     placeLikelihoods = new ArrayList<>(findCurrentPlaceResponse.getPlaceLikelihoods());
                     Collections.sort(placeLikelihoods, (placeLikelihood, t1) -> Double.compare(placeLikelihood.getLikelihood(), t1.getLikelihood()));
                     Collections.reverse(placeLikelihoods);
-//                            Log.d(TAG, "onComplete: Nearby Places List");
-//                            for (PlaceLikelihood place : placeLikelihoods) {
-//                                Log.d(TAG, "onComplete: ================================");
-////                                Log.d(TAG, "onComplete() ID:" + place.getPlace().getId());
-//                                Log.d(TAG, "onComplete() Name:" + place.getPlace().getName());
-//                                Log.d(TAG, "onComplete() Address:" + place.getPlace().getAddress());
-//                                Log.d(TAG, "onComplete() LatLng:" + place.getPlace().getLatLng());
-//                                Log.d(TAG, "onComplete: ================================");
-//                            }
+                    Log.d(TAG, "onComplete: Nearby Places List");
+                    for (PlaceLikelihood place : placeLikelihoods) {
+                        Log.d(TAG, "onComplete: ================================");
+//                                Log.d(TAG, "onComplete() ID:" + place.getPlace().getId());
+                        Log.d(TAG, "onComplete() Name:" + place.getPlace().getName());
+                        Log.d(TAG, "onComplete() Address:" + place.getPlace().getAddress());
+                        Log.d(TAG, "onComplete() LatLng:" + place.getPlace().getLatLng());
+                        Log.d(TAG, "onComplete: ================================");
+                    }
                     showNearbyPlacesList(placeLikelihoods);
 
                 } else {
